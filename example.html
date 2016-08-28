@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JodiUI - DOM - Example</title>
+    </head>
+    <body>
+        <div id="app">Run <i>npm install</i>, then <i>grunt build</i> to make it work.</div>
+
+        <script src="node_modules/systemjs/dist/system.js"></script>
+        <script src="systemjs.config.js"></script>
+        <script>
+            System.config({
+                'map': {
+                    'jodi-ui-dom': 'build/src/dom.js'
+                }
+            });
+
+            System.import('jodi-ui-dom').then(function (dom) {
+                var el = dom.el;
+                var elVoid = dom.elVoid;
+                var text = dom.text;
+                var render = dom.render;
+
+
+                render(document.querySelector('div#app'), function () {
+                    el('div', {'style': 'background: seagreen; padding: 1rem;'}, function () {
+                        el('h1', function () {text('Hello Jodi')});
+                        el('h2', function () {text('This is a very simple example')});
+                        el('p', function () {
+                            text('This example uses ES5 notation and systemjs.');
+                        });
+                        el('p', function () {
+                            text('You are, however, encouraged to use TypeScript and any module loader you like.');
+                        });
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
