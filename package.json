@@ -1,6 +1,6 @@
 {
   "name": "jodi-ui-dom",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "JavaScript/TypeScript UI library based on IncrementalDOM",
   "license": "MIT",
   "dependencies": {

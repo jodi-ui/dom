@@ -7,11 +7,5 @@ declare module 'incremental-dom' {
     export function patch(node:Element, fn:Function, data?:any);
 }
 
-// TODO for now
-// rename it to typings and move it to main directory
-// create a dist direcotory
-// to which we will export dom.js as dom.umd.js
-// TODO need to do smth to that source map
-
 
 
