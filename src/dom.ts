@@ -79,6 +79,6 @@ export function text(text) {
     incrementalDOMText(text);
 }
 
-export function render(node: Element, callback: Function, data?: any) {
+export function render <T>(node: Node, callback: (data: T) => void, data?: T) {
     return patch(node, callback, data);
 }
