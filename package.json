@@ -1,12 +1,12 @@
 {
   "name": "jodi-ui-dom",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "JavaScript/TypeScript UI library based on IncrementalDOM",
   "license": "MIT",
   "dependencies": {
     "incremental-dom": "^0.4.1"
   },
-  "main": "build/src/dom.js",
+  "main": "dist/dom.umd.js",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",

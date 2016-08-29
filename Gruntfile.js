@@ -8,6 +8,23 @@ module.exports = function(grunt) {
                 tsconfig: true
             }
         },
+        copy: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: [
+                            'build/src/dom.js'
+                        ],
+                        filter: 'isFile',
+                        rename: function () {
+                            return 'dist/dom.umd.js'
+                        }
+                    }
+                ]
+            }
+        },
         watch: {
             scripts: {
                 files: [
@@ -22,10 +39,12 @@ module.exports = function(grunt) {
 
     //
     grunt.loadNpmTasks('grunt-ts');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     //
     grunt.registerTask('build', ['ts']);
+    grunt.registerTask('dist', ['build', 'copy:dist']);
 
     // Default task(s).
     grunt.registerTask('default', ['build']);
