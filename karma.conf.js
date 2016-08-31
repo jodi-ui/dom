@@ -15,10 +15,6 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            // sources and tests
-            'src/**/*.ts',
-            'spec/**/*.ts',
-
             // built sources and tests
             'build/**/*.js'
         ],
@@ -30,10 +26,15 @@ module.exports = function (config) {
 
             // Patterns for files that you want Karma to make available, but not loaded until a module requests them. eg. Third-party libraries.
             serveFiles: [
+                // external libraries
                 'node_modules/incremental-dom/dist/**/*.js',
                 'node_modules/incremental-dom/dist/**/*.map',
                 'node_modules/systemjs/dist/**/*.js',
-                'node_modules/systemjs/dist/**/*.map'
+                'node_modules/systemjs/dist/**/*.map',
+
+                // sources and tests
+                'src/**/*.ts',
+                'spec/**/*.ts'
             ],
 
             // SystemJS configuration specifically for tests, added after your config file.
