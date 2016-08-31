@@ -21,7 +21,8 @@ export function el(
     let callback = cb;
     let staticProperties = staticProps;
     let dynamicProperties = dynamicProps;
-    let lastClosedNode;
+    let lastOpenedNode: HTMLElement;
+    let lastClosedNode: HTMLElement;
 
     if ('string' == typeof tag || tag instanceof String) {
         tags = [tag];
@@ -39,7 +40,7 @@ export function el(
     }
 
     tags.forEach(tag => {
-        elementOpen.apply(
+        lastOpenedNode = elementOpen.apply(
             undefined,
             [
                 tag,
@@ -51,13 +52,12 @@ export function el(
         );
     });
 
-    callback();
+    callback(lastOpenedNode);
 
     tags.reverse();
-    tags.forEach(
-        tag => {
-            lastClosedNode = elementClose(tag);
-        });
+    tags.forEach(tag => {
+        lastClosedNode = elementClose.call(undefined, tag);
+    });
 
     return lastClosedNode;
 }

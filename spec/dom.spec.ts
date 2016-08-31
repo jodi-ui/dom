@@ -158,4 +158,20 @@ describe('dom', () => {
         expect(node.querySelector('.asd')['__marker']).toBeTruthy();
         expect(node.querySelector('.zxc')['__marker']).toBeTruthy();
     });
+
+    it('should pass currently opened element to child-rendering callback', () => {
+        const node = document.createElement('section');
+
+        let element1;
+
+        render(node, () => {
+            element1 = el('div', {'marker1': 'bar'}, (div) => {
+                div.__marker2 = 'lorem';
+                expect(div.getAttribute('marker1')).toEqual('bar');
+            });
+        });
+
+        expect(element1.getAttribute('marker1')).toEqual('bar');
+        expect(element1.__marker2).toEqual('lorem');
+    });
 });
