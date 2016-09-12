@@ -1,78 +1,57 @@
 import {text as incrementalDOMText, elementClose, elementOpen, elementVoid, patch} from 'incremental-dom';
+import {Tags, StaticProperties, DynamicProperties, Key} from './classes';
+import {renderElement, renderVoidElement} from './functions';
 
-const _propKVToArray = (props) => {
-    const propsArray = [];
-    for (let i in props) {
-        propsArray.push(i);
-        propsArray.push(props[i]);
-    }
+export function el(tagOrTags, ...params): HTMLElement {
+    const tags = new Tags(tagOrTags);
 
-    return propsArray;
-};
+    let key = new Key(null);
+    let staticProperties = new StaticProperties({});
+    let dynamicProperties = new DynamicProperties({});
+    let callback = () => {
+    };
 
-export function el(
-    tag: any,
-    staticProps: Object|Function = {},
-    dynamicProps: Object|Function = {},
-    cb: Function = () => {
-    }
-): HTMLElement {
-    let tags: string[] = tag;
-    let callback = cb;
-    let staticProperties = staticProps;
-    let dynamicProperties = dynamicProps;
-    let lastOpenedNode: HTMLElement;
-    let lastClosedNode: HTMLElement;
+    params.forEach(param => {
+        if (param instanceof Key) {
+            key = param;
+        }
 
-    if ('string' == typeof tag || tag instanceof String) {
-        tags = [tag];
-    }
+        if (param instanceof StaticProperties) {
+            staticProperties = param;
+        }
 
-    if (staticProps instanceof Function) {
-        callback = staticProps;
-        staticProperties = {};
-        dynamicProperties = {};
-    }
+        if (param instanceof DynamicProperties) {
+            dynamicProperties = param;
+        }
 
-    if (dynamicProps instanceof Function) {
-        callback = dynamicProps;
-        dynamicProperties = {};
-    }
-
-    tags.forEach(tag => {
-        lastOpenedNode = elementOpen.apply(
-            undefined,
-            [
-                tag,
-                null,
-                _propKVToArray(staticProperties)
-            ].concat(
-                _propKVToArray(dynamicProperties)
-            )
-        );
+        if (param instanceof Function) {
+            callback = param;
+        }
     });
 
-    callback(lastOpenedNode);
-
-    tags.reverse();
-    tags.forEach(tag => {
-        lastClosedNode = elementClose.call(undefined, tag);
-    });
-
-    return lastClosedNode;
+    return renderElement(tags, key, staticProperties, dynamicProperties, callback);
 }
 
-export function elVoid(tag: string, staticProps: Object = {}, dynamicProps: Object = {}) {
-    return elementVoid.apply(
-        undefined,
-        [
-            tag,
-            null,
-            _propKVToArray(staticProps),
-        ].concat(
-            _propKVToArray(dynamicProps)
-        )
-    );
+export function elVoid(tag: string, ...params): HTMLElement {
+    let key = new Key(null);
+    let staticProperties = new StaticProperties({});
+    let dynamicProperties = new DynamicProperties({});
+
+    params.forEach(param => {
+        if (param instanceof Key) {
+            key = param;
+        }
+
+        if (param instanceof StaticProperties) {
+            staticProperties = param;
+        }
+
+        if (param instanceof DynamicProperties) {
+            dynamicProperties = param;
+        }
+    });
+
+    return renderVoidElement(tag, key, staticProperties, dynamicProperties);
 }
 
 export function text(text) {
