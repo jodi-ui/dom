@@ -1,4 +1,4 @@
-import {el, elVoid, text, render} from '../src/dom';
+import {el, elVoid, text, render, d, s} from '../index';
 
 const getAttrsListedAsDynamic = (node: Element) => {
     // IncrementalDOM stores dynamic attrs in node.__incrementalDOMData.newAttrs
@@ -29,13 +29,7 @@ describe('dom', () => {
         const node = document.createElement('div');
 
         render(node, () => {
-            el('span', {
-                foo: 'bar',
-                lorem: 'ipsum'
-            }, {
-                at: 'dolor',
-                sit: 'amet'
-            }, () => {
+            el('span', s({ foo: 'bar', lorem: 'ipsum' }), d({ at: 'dolor', sit: 'amet' }), () => {
                 text('test2');
             });
         });
@@ -59,7 +53,7 @@ describe('dom', () => {
         const node = document.createElement('div');
 
         render(node, () => {
-            el('span', {'class': 'foobar'}, () => {
+            el('span', s({'class': 'foobar'}), () => {
                 text('test3');
             });
         });
@@ -74,13 +68,7 @@ describe('dom', () => {
         const node = document.createElement('div');
 
         render(node, () => {
-            elVoid('input', {
-                foo: 'bar',
-                lorem: 'ipsum'
-            }, {
-                at: 'dolor',
-                sit: 'amet'
-            });
+            elVoid('input', d({ at: 'dolor', sit: 'amet' }), s({ foo: 'bar', lorem: 'ipsum' }));
         });
 
         const input = node.querySelector('input');
@@ -108,7 +96,7 @@ describe('dom', () => {
         const renderComponent = (data) => {
             render(node, () => {
                 data.forEach(item => {
-                    el('div', {id: item.id}, {'class': item['class']}, () => {
+                    el('div', d({'class': item['class']}), s({id: item.id}), () => {
                         text(item.text);
                     });
                 });
@@ -165,7 +153,7 @@ describe('dom', () => {
         let element1;
 
         render(node, () => {
-            element1 = el('div', {'marker1': 'bar'}, (div) => {
+            element1 = el('div', s({'marker1': 'bar'}), (div) => {
                 div.__marker2 = 'lorem';
                 expect(div.getAttribute('marker1')).toEqual('bar');
             });
@@ -174,4 +162,6 @@ describe('dom', () => {
         expect(element1.getAttribute('marker1')).toEqual('bar');
         expect(element1.__marker2).toEqual('lorem');
     });
+
+    // TODO test for key
 });
