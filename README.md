@@ -120,7 +120,7 @@ render(node, () => {
     el(['table', 'tr', 'td']);
 });
 
-// create items with keys specified keys
+// create items with some keys specified
 render(node, () => {
     el('table', () => {
         for (let i = 0; i < 10; i++) {
