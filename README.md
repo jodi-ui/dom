@@ -10,7 +10,7 @@ This example is in TypeScript, but this lib will work with ES5 as well.
 
 This code:
 ```typescript
-import {el, elVoid, text, render} from 'path/to/jodi-ui/dom';
+import {el, elVoid, text, render, s, d, k} from 'jodi-ui-dom';
 
 const node = document.querySelector('div.app');
 let inputValue = 'lorem';
@@ -19,12 +19,12 @@ let label = 'Foo';
 render(node, () => { // render calls IncrementalsDOM's patch underneath
     // el opens a div with specified properties, executes a callback and then closes a div
     // it also returns rendered element
-    el('div', {'class': 'wrapper'}, () => {
+    el('div', s({'class': 'wrapper'}, () => {
         el('form', () => {
             el('label', () => text(label));
             // when using el or elVoid you can specify properties as static or dynamic.
             // It's an IncrementalDOM's feature designed to improve performance
-            elVoid('input', {'name': 'foo'}, {'value': inputValue});
+            elVoid('input', s({'name': 'foo'}), d({'value': inputValue}));
         });
     });
 });
@@ -101,7 +101,7 @@ render(node, () => {
 // create an element with a child and a static property
 // which won't be updated upon next render on a same node
 render(node, () => {
-    el('div', {'class': 'foo'}, () => {
+    el('div', s({'class': 'foo'}), () => {
         elVoid('input');
     });
 });
@@ -110,7 +110,7 @@ render(node, () => {
 // and a dynamic property which will be updated (unlike static property)
 // if new values will be provided
 render(node, () => {
-    el('div', {'id': 'foo1'}, {'class': 'foo'}, () => {
+    el('div', s({'id': 'foo1'}), d({'class': 'foo'}), () => {
         elVoid('input');
     });
 });
@@ -118,6 +118,17 @@ render(node, () => {
 // create multiple nested items with one line
 render(node, () => {
     el(['table', 'tr', 'td']);
+});
+
+// create items with keys specified keys
+render(node, () => {
+    el('table', () => {
+        for (let i = 0; i < 10; i++) {
+            el('tr', k('row-' + i), () => {
+                // some fields and contents...
+            });
+        }
+    });
 });
 
 ```
