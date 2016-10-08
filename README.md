@@ -74,6 +74,11 @@ other text editors plugins to help you work with this code.
 *Jodi* aims to solve those problems by providing an easy-to-use JS/TS API that lets
 you produce readable and dynamic templates.
 
+## Installation
+```
+npm install --save jodi-ui-dom
+```
+
 ## Usage examples
 
 ```typescript
@@ -132,3 +137,6 @@ render(node, () => {
 });
 
 ```
+
+## Components
+Need components with lifecycle callbacks and states? Check: [JodiUI Components](https://github.com/jodi-ui/components)
